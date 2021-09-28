@@ -1,16 +1,10 @@
 kind: pipeline
 name: default
 steps:
-#  - name: build
-#  image: golang:1.16-alpine
-#  commands:
-#    - "go mod download"
-#    - "go build -o ./myapp"
   - name: publish
   image: plugins/docker
   settings:
     repo: registry.cn-beijing.aliyuncs.com/pivot-yy/ps-devops
-    # tags: [ "${DRONE_COMMIT_SHA:0:7}","latest" ]
     username:
       from_secret: docker_username
     password:
