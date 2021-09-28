@@ -7,6 +7,7 @@ steps:
   settings:
    repo: registry.cn-beijing.aliyuncs.com/pivot-yy/ps-devops
    registry: registry.cn-beijing.aliyuncs.com
+   dockerfile: ./Dockerfile
    username:
     from_secret: docker_username
    password:
