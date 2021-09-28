@@ -1,7 +1,7 @@
 kind: pipeline
 name: default
 steps:
- - name: publish
+- name: publish
  image: plugins/docker
  settings:
   repo: registry.cn-beijing.aliyuncs.com/pivot-yy/ps-devops
@@ -9,7 +9,7 @@ steps:
    from_secret: docker_username
   password:
    from_secret: docker_password
- - name: deliver
+- name: deliver
  image: sinlead/drone-kubectl
  settings:
   kubernetes_server:
