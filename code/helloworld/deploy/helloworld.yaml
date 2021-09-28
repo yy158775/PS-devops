@@ -1,0 +1,45 @@
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: helloworld-grpc
+#   namespace: exp
+#   labels:
+#     app: helloworld-grpc
+# spec:
+#   selector:
+#     app: helloworld-grpc
+#   type: NodePort
+#   ports:
+#   - name: web
+#     port: 80
+#     targetPort: http
+# ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: helloworld-grpc
+  namespace: exp
+  labels:
+    app: helloworld-grpc
+spec:
+  selector:
+    matchLabels:
+      app: helloworld-grpc
+  template:
+    metadata:
+      labels:
+        app: helloworld-grpc
+    spec:
+      containers:
+      - name: helloworld-grpc
+        image: registry.cn-beijing.aliyuncs.com/pivot-yy/ps-devops:latest
+        ports:
+        - containerPort: 50051
+          name: http
+        resources:
+          requests:
+            cpu: 50m
+            memory: 50Mi
+          limits:
+            cpu: 50m
+            memory: 50Mi          

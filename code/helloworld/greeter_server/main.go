@@ -21,11 +21,12 @@ package main
 
 import (
 	"context"
+	"io"
 	"log"
 	"net"
 
 	"google.golang.org/grpc"
-	pb "google.golang.org/grpc/examples/helloworld/helloworld"
+	pb "helloworld/helloworldproto"
 )
 
 const (
@@ -43,7 +44,25 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 	return &pb.HelloReply{Message: "Hello " + in.GetName()}, nil
 }
 
+func TestConn() {
+	lis,err := net.Listen("tcp","localhost:8080")
+	defer lis.Close()
+	if err != nil {
+		return
+	}
+	for {
+		conn,err := lis.Accept()
+		if err != nil {
+			return
+		}
+		io.WriteString(conn,"Get Your Message\r\n")
+		conn.Close()
+	}
+}
+
 func main() {
+	go TestConn()
+
 	lis, err := net.Listen("tcp", port)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
