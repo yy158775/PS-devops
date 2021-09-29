@@ -1,5 +1,5 @@
 #build stage
-FROM golang:alpine AS builder
+FROM golang:1.16 AS builder
 # RUN set -eux && sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
 # RUN apk --no-cache add ca-certificates
 RUN go env -w GOPROXY=https://goproxy.cn,direct
