@@ -24,5 +24,7 @@ steps:
     from_secret: k8s_cert
    kubernetes_token:
     from_secret: k8s_token
+   namesapce: exp
+  namesapce: exp
   commands:
    - kubectl apply -f code/helloworld/deploy
