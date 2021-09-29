@@ -18,14 +18,14 @@ steps:
 - name: deliver
   image: sinlead/drone-kubectl
   settings:
+   namespace: exp
    kubernetes_server:
     from_secret: k8s_server
    kubernetes_cert:
     from_secret: k8s_cert
    kubernetes_token:
     from_secret: k8s_token
-   namespace: exp
   commands:
-   - kubectl get pods
-   - kubectl get deployment
-   - kubectl apply -f code/helloworld/deploy  --namespace=exp
+   - kubectl get pods --namespace=exp
+   - kubectl get deployment --namespace=exp
+   - kubectl apply -f code/helloworld/deploy --namespace=exp
