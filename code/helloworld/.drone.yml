@@ -13,6 +13,8 @@ steps:
     from_secret: docker_username
    password:
     from_secret: docker_password
+   config:
+    from_secret: docker_hub
 - name: deliver
   image: sinlead/drone-kubectl
   settings:
