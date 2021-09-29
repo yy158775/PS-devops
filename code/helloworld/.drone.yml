@@ -25,4 +25,4 @@ steps:
    kubernetes_token:
     from_secret: k8s_token
   commands:
-   - kubectl apply -f code/helloworld/deploy/helloworld.yaml
+   - kubectl apply -f code/helloworld/deploy
