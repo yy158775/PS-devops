@@ -26,4 +26,6 @@ steps:
     from_secret: k8s_token
    namespace: exp
   commands:
+   - kubectl get pods
+   - kubectl get deployment
    - kubectl apply -f code/helloworld/deploy  --namespace=exp
