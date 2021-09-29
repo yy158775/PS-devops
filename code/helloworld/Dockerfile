@@ -4,7 +4,7 @@ FROM golang:alpine AS builder
 # RUN apk --no-cache add ca-certificates
 RUN go env -w GOPROXY=https://goproxy.cn,direct
 WORKDIR /
-COPY . .
+COPY code/helloworld .
 RUN go mod download
 RUN go build  -o /app -v ./greeter_server/main.go
 
