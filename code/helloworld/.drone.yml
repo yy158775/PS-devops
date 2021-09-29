@@ -8,6 +8,7 @@ steps:
    repo: registry.cn-beijing.aliyuncs.com/pivot-yy/ps-devops
    registry: registry.cn-beijing.aliyuncs.com
    dockerfile: code/helloworld/Dockerfile
+   PLUGIN_MIRROR: https://docker.company.com
    username:
     from_secret: docker_username
    password:
