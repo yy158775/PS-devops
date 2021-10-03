@@ -2,10 +2,10 @@ kind: pipeline
 name: default
 
 steps:
-- name: publish
+- name: publish-chat-room
   image: plugins/docker
   settings:
-   repo: registry.cn-beijing.aliyuncs.com/pivot-yy/ps-devops
+   repo: registry.cn-beijing.aliyuncs.com/pivot-yy/chat-room
    registry: registry.cn-beijing.aliyuncs.com
    dockerfile: code/helloworld/Dockerfile
    PLUGIN_MIRROR: https://docker.company.com

@@ -1,0 +1,9 @@
+{
+  "ServerInfo": {
+    "RpcHost": ":8080",
+    "RespHost": ":8081"
+  },
+  "RedisInfo": {
+    "RedisServerHost": "chat-redis:6380"
+  }
+}

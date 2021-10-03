@@ -1,18 +1,14 @@
-#build stage
-FROM golang:1.16 AS builder
-# RUN set -eux && sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
-# RUN apk --no-cache add ca-certificates
+FROM golang:1.16  AS builder
+# RUN set -eux && sed -i 's/dl- cdn.alpinelinux.org/mirrors.ustc.edu.cn/g'
+# RUN apk update && apk add --no-cache git
 RUN go env -w GOPROXY=https://goproxy.cn,direct
 WORKDIR /
-COPY code/helloworld .
+COPY . .
 RUN go mod download
-RUN go build  -o /app -v ./greeter_server/main.go
+# RUN go build  -o /app -v ./greeter_server/main.go
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /app -ldflags="-w -s" ./greeter_server/main.go
 
-#final stage
-FROM alpine:latest
-# 看看上面这行能不能改掉
-# RUN apk --no-cache add ca-certificates
+FROM scratch
 COPY --from=builder /app /app
-WORKDIR /
 EXPOSE 50051
-CMD ["./app"]
+ENTRYPOINT ["/app"]

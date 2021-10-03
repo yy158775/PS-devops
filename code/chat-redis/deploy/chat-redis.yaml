@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: chat-redis
+  namespace: exp
+  labels:
+    app: chat-redis
+spec:
+  selector:
+    app: chat-redis
+  ports:
+    - name: chat-redis
+      port: 6380
+      targetPort: 6380
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chat-redis
+  namespace: exp
+  labels:
+    app: chat-redis
+spec:
+  selector:
+    matchLabels:
+      app: chat-redis
+  template:
+    metadata:
+      labels:
+        app: chat-redis
+    spec:
+      containers:
+        - name: chat-redis
+          image: registry.cn-beijing.aliyuncs.com/pivot-yy/chat-redis:latest
+          ports:
+            - containerPort: 6380
+              name: http
+          resources:
+            requests:
+              cpu: 20m
+              memory: 20Mi
+            limits:
+              cpu: 20m
+              memory: 20Mi
+

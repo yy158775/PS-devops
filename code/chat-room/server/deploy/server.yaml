@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: chat-room
+  namespace: exp
+  labels:
+    app: chat-room
+spec:
+  selector:
+    app: chat-room
+  ports:
+    - name: rpc
+      port: 8080
+      targetPort: 8080
+    - name: response
+      port: 8081
+      targetPort: 8081
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chat-room
+  namespace: exp
+  labels:
+    app: chat-room
+spec:
+  selector:
+    matchLabels:
+      app: chat-room
+  template:
+    metadata:
+      labels:
+        app: chat-room
+    spec:
+      containers:
+        - name: chat-room
+          image: registry.cn-beijing.aliyuncs.com/pivot-yy/chat-room:latest
+          ports:
+            - containerPort: 8080
+              name: rpc
+            - containerPort: 8081
+              name: response
+          resources:
+            requests:
+              cpu: 50m
+              memory: 50Mi
+            limits:
+              cpu: 50m
+              memory: 50Mi

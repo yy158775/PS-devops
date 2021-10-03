@@ -1,0 +1,7 @@
+{
+  "Host": "redis-service:6379",
+  "MaxIdle":     16,
+  "MaxActive":   0,
+  "IdleTimeout": 300,
+  "ListenHost": ":6380"
+}

@@ -1,0 +1,9 @@
+{
+  "ServerInfo": {
+    "RpcHost": "localhost:8080",
+    "RespHost": "localhost:8081"
+  },
+  "RedisInfo": {
+    "RedisServerHost": "localhost:6380"
+  }
+}

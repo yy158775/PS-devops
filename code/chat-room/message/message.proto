@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package message;
+
+message LoginRequest {
+  string UserName = 1;
+  string PassWord = 2;
+}
+
+message LoginResponse {
+  int32 Code = 1;
+  string Message = 2;
+}
+
+message RegisterRequest {
+  string UserName = 1;
+  string PassWord = 2;
+  string ConfirmPassWord = 3;
+}
+
+message RegisterResponse {
+  int32 Code = 1;
+  string Message = 2;
+  //string Data = 3;
+}
+
+message ChatMessage {
+  string UserName = 1;
+  string Data = 2;
+}
+
+message Empty {}
+
+service UserService {
+  rpc Register(RegisterRequest) returns (RegisterResponse);
+  rpc Login(LoginRequest) returns (LoginResponse);
+  rpc SendMessage(ChatMessage) returns (Empty);
+}

@@ -1,19 +1,19 @@
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: helloworld-grpc
-#   namespace: exp
-#   labels:
-#     app: helloworld-grpc
-# spec:
-#   selector:
-#     app: helloworld-grpc
-#   type: NodePort
-#   ports:
-#   - name: web
-#     port: 80
-#     targetPort: http
-# ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: helloworld-grpc
+  namespace: exp
+  labels:
+    app: helloworld-grpc
+spec:
+  selector:
+    app: helloworld-grpc
+  ports:
+  - name: web
+    port: 80
+    targetPort: 5000
+    protocol: TCP
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:

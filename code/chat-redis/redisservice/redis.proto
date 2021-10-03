@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+// 注册和登录的时候 要小心一下
+
+package redisservice;
+
+message UserName {
+  string UserName = 1;
+}
+
+message UserInfo {
+  string UserName = 1;
+  string Password = 2;
+}
+
+message Empty {}
+
+message NewUser {
+  string UserName = 1;
+  string Password = 2;
+}
+
+service RedisService {
+  rpc GetUserByName(UserName) returns (UserInfo);
+  rpc InsertUser(NewUser) returns (Empty);
+}
