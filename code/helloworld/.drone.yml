@@ -2,30 +2,30 @@ kind: pipeline
 name: default
 
 steps:
-- name: publish-chat-room
-  image: plugins/docker
-  settings:
-   repo: registry.cn-beijing.aliyuncs.com/pivot-yy/chat-room
-   registry: registry.cn-beijing.aliyuncs.com
-   dockerfile: code/helloworld/Dockerfile
-   PLUGIN_MIRROR: https://docker.company.com
-   username:
-    from_secret: docker_username
-   password:
-    from_secret: docker_password
-   config:
-    from_secret: docker_hub
-- name: deliver
-  image: sinlead/drone-kubectl
-  settings:
-   namespace: exp
-   kubernetes_server:
-    from_secret: k8s_server
-   kubernetes_cert:
-    from_secret: k8s_cert
-   kubernetes_token:
-    from_secret: k8s_token
-  commands:
-   - kubectl get pods --namespace=exp
-   - kubectl get deployment --namespace=exp
-   - kubectl apply -f code/helloworld/deploy --namespace=exp
+  - name: publish-chat-room
+    image: plugins/docker
+    settings:
+      repo: registry.cn-beijing.aliyuncs.com/pivot-yy/chat-room
+      registry: registry.cn-beijing.aliyuncs.com
+      dockerfile: code/helloworld/Dockerfile
+      PLUGIN_MIRROR: https://docker.company.com
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+      config:
+        from_secret: docker_hub
+  - name: deliver
+    image: sinlead/drone-kubectl
+    settings:
+      namespace: exp
+      kubernetes_server:
+        from_secret: k8s_server
+      kubernetes_cert:
+        from_secret: k8s_cert
+      kubernetes_token:
+        from_secret: k8s_token
+    commands:
+      - kubectl get pods --namespace=exp
+      - kubectl get deployment --namespace=exp
+      - kubectl apply -f code/helloworld/deploy --namespace=exp
