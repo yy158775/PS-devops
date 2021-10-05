@@ -35,7 +35,12 @@
 ```
 kubernetes describe pod xxx
 kubernetes logs pod xxx
-
+kubectl scale deployment xxx --replicas=4
+kubectl autoscale deployment chat-redis --cpu-percent=50 --min=1 --max=3
+kubectl get pods
+kubectl get hpa
+kubectl get svc
+kubectl top pod
 ```
 
 # 结构
@@ -43,6 +48,8 @@ kubernetes logs pod xxx
 API server：
 
 API 对象：有特定的类型，Node,Namespace,,Pod,Service,Deployment
+
+还有负责Pod扩缩容功能，但是使用命令，kubectl毕竟是手动的功能，Kubernetes也为我们提供了一个这样的资源对象Horizontal Pod  Autoscaling Pod水平扩缩容，
 
 ## kube-proxy
 
@@ -114,3 +121,20 @@ Service是一个虚拟IP地址，不会添加在任何网络接口设备上。�
 
 使用命名空间来限制资源对象名称的作用域。
 
+
+
+# HorizontalAutoScaler
+
+![image-20211005155120565](/home/yy/.config/Typora/typora-user-images/image-20211005155120565.png)
+
+```bash
+kubectl autoscale deployment chat-redis --cpu-percent=50 --min=1 --max=3
+```
+
+
+
+![image-20211005200027901](/home/yy/.config/Typora/typora-user-images/image-20211005200027901.png)
+
+![image-20211005200036898](/home/yy/.config/Typora/typora-user-images/image-20211005200036898.png)
+
+我们可以简单的通过 `kubectl autoscale` 命令来创建一个 HPA 资源对象，`HPA Controller`默认`30s`轮询一次（可通过 `kube-controller-manager` 的`--horizontal-pod-autoscaler-sync-period` 参数进行设置），查询指定的资源中的 Pod 资源使用率，并且与创建时设定的值和指标做对比，从而实现自动伸缩的功能。
