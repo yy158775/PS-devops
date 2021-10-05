@@ -42,8 +42,8 @@ spec:
               name: response
           resources:
             requests:
-              cpu: 50m
-              memory: 50Mi
+              cpu: 30m
+              memory: 30Mi
             limits:
-              cpu: 50m
-              memory: 50Mi
+              cpu: 30m
+              memory: 30Mi
