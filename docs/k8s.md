@@ -97,9 +97,9 @@ spec:
 
 还有ReplicatSet
 
-![image-20211004144741292](/home/yy/.config/Typora/typora-user-images/image-20211004144741292.png)
+![image-20211004144741292](https://github.com/yy158775/PS-devops/blob/master/docs/photo/image-20211004144741292.png)
 
-![image-20211004144759389](/home/yy/.config/Typora/typora-user-images/image-20211004144759389.png)
+![image-20211004144759389](https://github.com/yy158775/PS-devops/blob/master/docs/photo/image-20211004144759389.png)
 
 ## 水平伸缩和滚动更新
 
@@ -125,7 +125,7 @@ Service是一个虚拟IP地址，不会添加在任何网络接口设备上。�
 
 # HorizontalAutoScaler
 
-![image-20211005155120565](/home/yy/.config/Typora/typora-user-images/image-20211005155120565.png)
+![image-20211005155120565](https://github.com/yy158775/PS-devops/blob/master/docs/photo/image-20211005155120565.png)
 
 ```bash
 kubectl autoscale deployment chat-redis --cpu-percent=50 --min=1 --max=3
@@ -133,8 +133,8 @@ kubectl autoscale deployment chat-redis --cpu-percent=50 --min=1 --max=3
 
 
 
-![image-20211005200027901](/home/yy/.config/Typora/typora-user-images/image-20211005200027901.png)
+![image-20211005200027901](https://github.com/yy158775/PS-devops/blob/master/docs/photo/image-20211005200027901.png)
 
-![image-20211005200036898](/home/yy/.config/Typora/typora-user-images/image-20211005200036898.png)
+![image-20211005200036898](https://github.com/yy158775/PS-devops/blob/master/docs/photo/image-20211005200036898.png)
 
 我们可以简单的通过 `kubectl autoscale` 命令来创建一个 HPA 资源对象，`HPA Controller`默认`30s`轮询一次（可通过 `kube-controller-manager` 的`--horizontal-pod-autoscaler-sync-period` 参数进行设置），查询指定的资源中的 Pod 资源使用率，并且与创建时设定的值和指标做对比，从而实现自动伸缩的功能。
