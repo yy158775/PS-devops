@@ -34,6 +34,9 @@ redis-service-58d68bcdfb-hfdg8    为redis镜像
 ![Image-text](https://github.com/yy158775/PS-devops/blob/master/docs/photo/services.png)
 ![Image-text](https://github.com/yy158775/PS-devops/blob/master/docs/photo/running.png)
 
+运行：
+![image-text](https://github.com/yy158775/PS-devops/blob/master/docs/photo/result.png)
+
 
 # 自动化部署采用drone cloud
 
