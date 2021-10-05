@@ -24,7 +24,8 @@ rpc SendMessage(ChatMessage)  returns (Empty);
 负责查询后端redis数据库，给server提供查询功能。
 
 services截图
-![Image text]https://github.com/yy158775/PS-devops/blob/master/docs/photo/services.png
+
+![Image-text](https://github.com/yy158775/PS-devops/blob/master/docs/photo/services.png)
 
 
 # k8s运行
