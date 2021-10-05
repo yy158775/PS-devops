@@ -75,8 +75,6 @@ func main() {
 				}
 				loginuser.tokenString = resp.Message
 				loginuser.UserName = userName
-				logger.Info("token:", resp.Message)
-				//receiveconn.Write([]byte(loginuser.tokenString)) //接收消息的都发一遍
 				io.WriteString(receiveconn, loginuser.tokenString)
 				//这个方法不错
 

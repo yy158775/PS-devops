@@ -69,15 +69,17 @@ Tag：每个Repository可以包含多个Tag，每个Tag对应一个image
 
 > ​	Containerd was designed to be used by Docker and Kubernetes as well as  any other container platform that wants to abstract away syscalls or OS  specific functionality to run containers on linux, windows, solaris, or  other OSes.  
 
-# docker文件系统
-
-
-
 
 
 # container容器是如何实现的
 
 容器平台都有什么特点，都有哪些特点在里面。
+
+namespace 实现资源隔离
+
+cgroup 实现资源限制
+
+写时复制 高效的文件操作
 
 ## namespace
 
@@ -89,35 +91,67 @@ Linux 的命名空间机制提供了以下七种不同的命名空间，包括  
 
 ​	当前的 Docker 容器成功将容器内的进程与宿主机器中的进程隔离，如果我们在宿主机器上打印当前的全部进程时，会得到下面三条与 Docker 相关的结果：
 
-​	Docker 的容器就是使用上述技术实现与宿主机器的进程隔离，当我们每次运行 docker run 或者 docker start 时，都会在下面的方法中创建一个用于设置进程间隔离的 Spec：
+​	Docker 的容器就是使用上述技术实现与宿主机器的进程隔离，当我们每次运行 docker run 或者 docker start 时，都会在下面的方法中创建一个用于设置进程间隔离的 Spec
+
+
+
+## 实验
+
+CLONE_NEWUTS
+
+```C
+#define _GNU_SOURCE
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <stdio.h>
+#include <sched.h>
+#include <signal.h>
+#include <unistd.h>
+#define STACK_SIZE (1024 * 1024)
+
+static char container_stack[STACK_SIZE];
+char* const container_args[] = {
+   "/bin/bash",
+   NULL
+};
+
+// 容器进程运行的程序主函数
+int container_main(void *args)
+{
+   printf("在容器进程中！\n");
+   execv(container_args[0], container_args); // 执行/bin/bash   return 1;
+}
+
+int main(int args, char *argv[])
+{
+   printf("程序开始\n");
+   // clone 容器进程
+   int container_pid = clone(container_main, container_stack + STACK_SIZE, SIGCHLD | CLONE_NEWUTS, NULL);
+   // 等待容器进程结束
+   waitpid(container_pid, NULL, 0);
+   return 0;
+}
+```
+
+## CGroups
+
+​	但是 namespaces 并不能够为我们提供物理资源上的隔离，比如 CPU、内存、IO  或者网络带宽等，所以如果我们运行多个容器的话，则容器之间就会抢占资源互相影响了，所以对容器资源的使用进行限制就非常重要了，而 Control  Groups（CGroups）技术就能够隔离宿主机上的物理资源。CGroups 由 7 个主要的子系统组成：分别是  cpuset、cpu、cpuacct、blkio、devices、freezer、memory，不同类型资源的分配和管理是由各个 CGroup  子系统负责完成的。
+
+## 文件系统UnionFS
+
+容器和镜像的区别：
+
+容器会在镜像顶层创建一个可写层。所以多个容器可以共享一个镜像。
+
+
 
 # docker的用处
 
-编写
+​	由于之前我们的后台在开发和运维阶段的环境是不一致的，这就导致了 Docker 的出现，因为我们通过 Docker 可以将程序运行的环境也一起打包到版本控制去了，这样就排除了因为环境不同造成的各种麻烦事情了，也不会出现在本地可以在线上却不行这样的窘境了
 
+# 命令
 
-
-# 为什么要用docker
-
-​	Docker 的出现一定是因为目前的后端在开发和运维阶段确实需要一种虚拟化技术解决开发环境和生产环境环境一致的问题，通过 Docker 我们可以将程序运行的环境也纳入到版本控制中，排除因为环境造成不同运行结果的可能。
-
-我在本地写代码，可以跑起来，但是到了服务器上可能跑步起来？？
-
-
-
-大家需要注意，**Docker本身并不是容器**，它是创建容器的工具，是应用容器引擎。
-
-
-
-​	通过 `docker run`  命令指定一个容器创建镜像时，实际上是在该镜像之上创建一个空的可读写的文件系统层级，可以将这个文件系统层级当成一个临时的镜像来对待，而命令中所指的模版镜像则可以称之为父镜像。
-
-​	父镜像的内容都是以只读的方式挂载进来的，容器会读取共享父镜像的内容，用户所做的所有修改都是在文件系统中，不会对父镜像造成任何影响。当然用户可以通过其他一些手段使修改持久化到父镜像中，这个我们后面会详细介绍到。
-
-​	简而言之，镜像就是一个固定的不会变化的模版文件，容器是根据这个模版创建出来的，容器会在模版的基础上做一些修改，这些修改本身并不会影响到模版，我们还可以根据模版（镜像）创建出来更多的容器。
-
-如果有必要，我们是可以修改模版（镜像）的。
-
-# docker build
+docker build
 
 > ​	The `docker build` command builds Docker images from a Dockerfile and a “context”. 
 >
@@ -125,9 +159,9 @@ Linux 的命名空间机制提供了以下七种不同的命名空间，包括  
 >
 > ​	The build process can refer to any of the files in the context. For example, your build can use a [*COPY*](https://docs.docker.com/engine/reference/builder/#copy) instruction to reference a file in the context.
 
+docker run
 
+-d: 守护进程
 
-# docker 网络
-
-​	docker容器的四种网络模式：bridge 桥接模式、host 模式、container 模式和 none 模式 
+-it : 交互式的进程
 

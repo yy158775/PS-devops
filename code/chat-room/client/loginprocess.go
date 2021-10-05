@@ -13,10 +13,9 @@ func AfterLogin(c message.UserServiceClient, ch chan<- int) {
 
 	for {
 		logger.Info("\t\tyou can send group message or type exit:\n")
-		//logger.Info("\t\tyou can exit by type exit\n")
 		inputReader := bufio.NewReader(os.Stdin)
 		content, err := inputReader.ReadString('\n')
-		if content == "exit" {
+		if content == "exit\n" {
 			ch <- 1
 			logger.Info("Exit")
 			return
